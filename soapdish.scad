@@ -89,23 +89,25 @@ difference() {
 }
 
 // drip edge
-difference() {
-    // cube for main drip edge
-    translate([-(totalWidth / 2),
-               -(totalDepth / 2),
-               -dripEdgeHeight])
-    cube([totalWidth, dripEdgeThickness, dripEdgeHeight]);
-    
-    // grooves
-//    for(groove = [0 : 2 : (numberGrooves2 * 2)]) {
-    for(groove = [0 : 2 : (numberGrooves)]) {
-        translate([-(totalWidth / 2)
-                        + groovesOffset
-                        + (groove * wallThickness),
-                   -((totalDepth / 2) + dispAdjust),
-                   -(dripEdgeHeight + dispAdjust)])
-        cube([wallThickness,
-              grooveDepth + dispAdjust,
-              dripEdgeHeight + (2 * dispAdjust)]);
+if (hasDripEdge) {
+    difference() {
+        // cube for main drip edge
+        translate([-(totalWidth / 2),
+                   -(totalDepth / 2),
+                   -dripEdgeHeight])
+        cube([totalWidth, dripEdgeThickness, dripEdgeHeight]);
+        
+        // grooves
+    //    for(groove = [0 : 2 : (numberGrooves2 * 2)]) {
+        for(groove = [0 : 2 : (numberGrooves)]) {
+            translate([-(totalWidth / 2)
+                            + groovesOffset
+                            + (groove * wallThickness),
+                       -((totalDepth / 2) + dispAdjust),
+                       -(dripEdgeHeight + dispAdjust)])
+            cube([wallThickness,
+                  grooveDepth + dispAdjust,
+                  dripEdgeHeight + (2 * dispAdjust)]);
+        }
     }
 }
