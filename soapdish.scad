@@ -3,6 +3,7 @@ hasFrontWall = 0;
 hasGrooves = 1;
 
 wallThickness = 2.4;
+grooveThickness = 2 * wallThickness;
 // back of groove, front will be wallThickness more than this
 grooveDepth = 2 * wallThickness;
 floorThickness = 2 * grooveDepth; // allow for slight angle inside grooves
@@ -28,9 +29,9 @@ sideAngle = atan((backHeight - frontHeight - floorThickness) / innerDepth);
 grooveAngle = atan(grooveDepth / (innerDepth - wallThickness));
 
 // grooves and ridges
-numberGrooves = floor((innerWidth - wallThickness) / wallThickness);
+numberGrooves = floor((innerWidth - grooveThickness) / grooveThickness);
 echo("numberGrooves",numberGrooves);
-groovesOffset = (totalWidth - (wallThickness * numberGrooves)) / 2;
+groovesOffset = (totalWidth - (grooveThickness * numberGrooves)) / 2;
 echo("groovesOffset",groovesOffset);
 //FIXME: 'numberGrooves' really should be this math, but can't get it working, as it is off by some amount
 //numberGrooves2 = floor(innerWidth / (2 * wallThickness));
@@ -64,12 +65,13 @@ difference() {
         rotate([grooveAngle, 0, 0])
         translate([-(totalWidth / 2)
                         + groovesOffset
-                        + (groove * wallThickness),
+                        + (groove * grooveThickness),
                    -((totalDepth / 2) - sqrt(dispAdjust/2)),
                    (floorThickness - grooveDepth) - dispAdjust])
-        cube([wallThickness,
-              sqrt((totalDepth - wallThickness) ^ 2 + wallThickness ^ 2)
-                    + dispAdjust,
+        cube([grooveThickness,
+              sqrt((totalDepth - grooveThickness) ^ 2
+                    + grooveThickness ^ 2)
+                + dispAdjust,
               floorThickness]);
     }
 
@@ -78,10 +80,10 @@ difference() {
         for(groove = [0 : 2 : (numberGrooves)]) {
             translate([-(totalWidth / 2)
                             + groovesOffset
-                            + (groove * wallThickness),
+                            + (groove * grooveThickness),
                        -((totalDepth / 2) + dispAdjust),
                        -dispAdjust])
-            cube([wallThickness,
+            cube([grooveThickness,
                   grooveDepth + dispAdjust,
                   floorThickness + (2 * dispAdjust)]);
         }
@@ -102,10 +104,10 @@ if (hasDripEdge) {
         for(groove = [0 : 2 : (numberGrooves)]) {
             translate([-(totalWidth / 2)
                             + groovesOffset
-                            + (groove * wallThickness),
+                            + (groove * grooveThickness),
                        -((totalDepth / 2) + dispAdjust),
                        -(dripEdgeHeight + dispAdjust)])
-            cube([wallThickness,
+            cube([grooveThickness,
                   grooveDepth + dispAdjust,
                   dripEdgeHeight + (2 * dispAdjust)]);
         }
